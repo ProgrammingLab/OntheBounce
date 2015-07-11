@@ -1,5 +1,6 @@
 var dgram = require('dgram');
 var readline = require('readline');
+var _ = require('./util');
 
 var server = dgram.createSocket('udp4');
 
