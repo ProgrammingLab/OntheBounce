@@ -1,9 +1,13 @@
 package com.kurume_nct.onthebounce;
 
+import android.os.Debug;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.kurume_nct.onthebounce.api.UDPPost;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +16,21 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Log.d("DEBUG", "onResume");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("hogehoge", "hogehoge");
+                UDPPost udp = new UDPPost("192.168.1.3", 4000);
+                udp.sendMessage("hogehoge");
+            }
+        }).start();
     }
 
     @Override
