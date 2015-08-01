@@ -13,8 +13,4 @@ gulp.task 'watch', ->
   watch 'es6/**/*.es6', ->
     gulp.start 'compile'
 
-gulp.task 'test', ->
-  gulp.src 'test/**/*.es6'
-    .pipe mocha()
-
 gulp.task 'default', ['watch']
