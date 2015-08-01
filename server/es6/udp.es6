@@ -7,18 +7,19 @@ class Udp {
     this.port = port;
   }
 
-  close() {
-    this.socket_.close();
+  distribute(event, data, errors, fn) {
+    var msg_json = Udp.to_json(event, data, errors);
+    this.socket_.send(msg_json, 0, msg_json.length, this.port, this.host, fn);
   }
 
-  distribute(event, data, errors) {
+  static to_json(event, data, errors) {
     var msg = {
       event: event,
       data: data,
       errors: errors
     };
-    var msg_json = JSON.stringify(msg);
-    this.socket_.send(msg_json, 0, msg_json.length, this.port, this.host);
+
+    return JSON.stringify(msg);
   }
 }
 
