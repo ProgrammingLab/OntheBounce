@@ -1,5 +1,7 @@
 var chai = require('chai');
 var ServerManager = require('../es6/server_manager');
+var rewire = require('rewire');
+var pServerManager = rewire('../es6/server_manager.es6');
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 
@@ -25,3 +27,20 @@ describe('udp methods', () => {
     });
 });
 
+describe('parseJson', () => {
+    var parseJson = pServerManager.__get__('parseJson');
+    it ('success when json is ok', () => {
+        var msg = JSON.stringify({event: 'event', data: [], errors: []});
+        var errors = [];
+        var result = parseJson(msg, errors);
+        expect(errors).to.be.empty;
+        expect(result).to.be.an('object');
+    });
+    it ('unsuccess when json is not ok', () => {
+        var msg = '';
+        var errors = [];
+        var result = parseJson(msg, errors);
+        expect(errors).to.not.be.empty;
+        expect(result).to.be.undefined;
+    });
+});
