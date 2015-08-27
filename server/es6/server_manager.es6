@@ -1,5 +1,14 @@
-
 let instance = null;
+
+function parseJson(msg, errors) {
+    var data;
+    try {
+        data = JSON.parse(msg.toString());
+    } catch(e) {
+        errors.push(e.toString());
+    }
+    return data;
+}
 
 class ServerManager {
     constructor() {
@@ -18,8 +27,8 @@ class ServerManager {
     }
 
     onMessage(msg, rinfo) {
-        console.log(msg.toString());
-        console.log("%s:%d\n", rinfo.address, rinfo.port);
+        var errors = [];
+        var json = parseJson(msg, errors);
     }
 
     onError(err) {
