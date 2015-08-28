@@ -28,12 +28,16 @@ class ServerManager {
 
     onMessage(msg, rinfo) {
         var errors = [];
+        var data = [];
         var json = parseJson(msg, errors);
         switch (json.event) {
             default:
+                json.event = 'Unknown Event';
                 errors.push('Unknown Event pushed');
                 break;
         }
+        var udp = new Udp(rinfo.address, rinfo.port);
+        udp.distribute(json.event, data, errors);
     }
 
     onError(err) {
