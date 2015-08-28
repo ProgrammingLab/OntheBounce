@@ -1,3 +1,4 @@
+var Member = require('./member');
 let instance = null;
 
 function parseJson(msg, errors) {
@@ -12,6 +13,7 @@ function parseJson(msg, errors) {
 
 class ServerManager {
     constructor() {
+        this.members = [];
         if (!instance) {
             instance = this;
         }
@@ -28,7 +30,21 @@ class ServerManager {
 
     onMessage(msg, rinfo) {
         var errors = [];
+        var data = {};
         var json = parseJson(msg, errors);
+        switch (json.event) {
+            case 'session_id':
+                var member = new Member(rinfo.address);
+                this.members.push(member);
+                data.session_id = member.session_id;
+                break;
+            default:
+                json.event = 'Unknown Event';
+                errors.push('Unknown Event pushed');
+                break;
+        }
+        var udp = new Udp(rinfo.address, rinfo.port);
+        udp.distribute(json.event, data, errors);
     }
 
     onError(err) {
