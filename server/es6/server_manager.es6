@@ -29,6 +29,11 @@ class ServerManager {
     onMessage(msg, rinfo) {
         var errors = [];
         var json = parseJson(msg, errors);
+        switch (json.event) {
+            default:
+                errors.push('Unknown Event pushed');
+                break;
+        }
     }
 
     onError(err) {
