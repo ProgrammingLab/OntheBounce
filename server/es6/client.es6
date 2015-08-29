@@ -19,6 +19,5 @@ rl.on('line', function (cmd) {
 
 rl.on('SIGINT', function () {
   console.log(`Connection Closed - ${options.host}:${options.port}`);
-  client.close();
   rl.close();
 });

@@ -1,4 +1,5 @@
 var Member = require('./member');
+var Udp = require('./udp');
 let instance = null;
 
 function parseJson(msg, errors) {
