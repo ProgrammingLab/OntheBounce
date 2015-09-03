@@ -84,6 +84,12 @@ class ServerManager {
                     room.addMember(member, errors);
                 }
                 break;
+            case 'users':
+                var room = getRoom(this.rooms, json.room_id, errors);
+                if (room) {
+                    data.members = room.members;
+                }
+                break;
             default:
                 json.event = 'Unknown Event';
                 errors.push('Unknown Event pushed');
