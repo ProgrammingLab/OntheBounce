@@ -9,6 +9,10 @@ class Room extends Base {
     this.room_id = _.sha1(new Date().getTime());
     this.author = user;
   }
+
+  addMember(member, errors) {
+    this.members.push(member);
+  }
 }
 
 module.exports = Room;

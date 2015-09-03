@@ -23,7 +23,21 @@ function getMember(members, session_id, errors) {
             return members[i];
         }
     }
-    errors.push("Session id invalid");
+    errors.push("Session id is invalid");
+    return null;
+}
+
+function getRoom(rooms, room_id, errors) {
+    if (!room_id) {
+        errors.push("Room id is required");
+        return null;
+    }
+    for (var i = 0; i < rooms.length; i++) {
+        if (rooms[i].room_id == room_id) {
+            return rooms[i];
+        }
+    }
+    errors.push("Room id is invalid");
     return null;
 }
 
@@ -61,6 +75,13 @@ class ServerManager {
                     var room = new Room(member);
                     this.rooms.push(room);
                     data.room_id = room.room_id;
+                }
+                break;
+            case 'join_room':
+                var member = getMember(this.members, json.session_id, errors);
+                var room = getRoom(this.rooms, json.room_id, errors);
+                if (member && room) {
+                    room.addMember(member, errors);
                 }
                 break;
             default:
