@@ -1,4 +1,5 @@
 var Member = require('./member');
+var Room = require('./room');
 var Udp = require('./udp');
 let instance = null;
 
@@ -12,9 +13,24 @@ function parseJson(msg, errors) {
     return data;
 }
 
+function getMember(members, session_id, errors) {
+    if (!session_id) {
+        errors.push("Session id is required");
+        return null;
+    }
+    for(var i = 0; i < members.length; i++) {
+        if (members[i].session_id == session_id) {
+            return members[i];
+        }
+    }
+    errors.push("Session id invalid");
+    return null;
+}
+
 class ServerManager {
     constructor() {
         this.members = [];
+        this.rooms = [];
         if (!instance) {
             instance = this;
         }
@@ -38,6 +54,14 @@ class ServerManager {
                 var member = new Member(rinfo.address);
                 this.members.push(member);
                 data.session_id = member.session_id;
+                break;
+            case 'create_room':
+                var member = getMember(this.members, json.session_id, errors);
+                if (member) {
+                    var room = new Room(member);
+                    this.rooms.push(room);
+                    data.room_id = room.room_id;
+                }
                 break;
             default:
                 json.event = 'Unknown Event';
