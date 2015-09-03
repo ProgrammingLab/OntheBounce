@@ -8,3 +8,12 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 var expect = chai.expect;
 
+describe('Member.getMember', () => {
+    it ('returns member', () => {
+        var member = new Member('localhost');
+        member.session_id = 'test';
+        Member.pushMember(member);
+        expect(Member.getMember('test')).to.eql(member);
+        expect(Member.getMember('')).to.be.null;
+    });
+});
