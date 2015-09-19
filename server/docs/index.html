@@ -1,0 +1,171 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>OntheBounceの仕様</title>
+    <link rel="stylesheet" type="text/css" href="app.css"/>
+</head>
+<body>
+<div>
+    <h2>session_id</h2>
+
+    <div class="input">
+        <h3>Input</h3>
+        <ul>
+            <li><code>event(:string) = "session_id"</code></li>
+            <li><code>data(:object): {}</code></li>
+        </ul>
+    </div>
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "session_id"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li>
+                        <code>session_id(:integer)</code>
+                    </li>
+                </ul>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array)[]</code></li>
+        </ul>
+    </div>
+
+    Ex:
+    <div class="example">
+<pre>
+    <code>
+    Input
+    {
+        "event": "session_id",
+        "data": { }
+    }
+
+    Output
+    {
+        "event": "session_id",
+        "data": {
+            "session_id": "123456789"
+        },
+        "errors": []
+    }
+    </code>
+</pre>
+    </div>
+</div>
+
+<div>
+    <h2>create_room</h2>
+
+    <div class="input">
+        <h3>Input</h3>
+        <ul>
+            <li><code>event(:string) = "create_room"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li>
+                        <code>session_id(:integer)</code>
+                    </li>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "create_room"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li>
+                        <code>room_id(:integer)</code>
+                    </li>
+                </ul>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>join_room</h2>
+
+    <div class="input">
+        <h3>Input</h3>
+        <ul>
+            <li><code>event(:string) = "join_room"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li><code>session_id(:integer)</code></li>
+                    <li><code>room_id(:integer)</code></li>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "join_room"</code></li>
+            <li><code>data(:object): {}</code></li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>users</h2>
+
+    <div class="input">
+        <h3>Input</h3>
+        <ul>
+            <li><code>event(:string) = "users"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li><code>session_id(:integer)</code></li>
+                    <li><code>room_id(:integer)</code></li>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "users"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li><code>users(:array): [</code>
+                        <ul>
+                            <li>
+                                <code>user(:object): {</code>
+                                    <ul>
+                                        <li>
+                                            <code>session_id(:integer)</code>
+                                        </li>
+                                    </ul>
+                                <code>}</code>
+                            </li>
+                        </ul>
+                        <code>]</code>
+                    </li>
+                </ul>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<h2>hitted</h2>
+
+<h2>hitted_state</h2>
+
+<h2>gameover</h2>
+
+<h2>result</h2>
+</body>
+</html>
