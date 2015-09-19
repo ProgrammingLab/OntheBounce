@@ -9,6 +9,7 @@ class Member extends Base {
     super(udp.socket_);
     this.udp = udp;
     this.session_id = _.sha1(address.toString() + 'salt');
+    this.address = address;
   }
 
   static getMember(member_id) {

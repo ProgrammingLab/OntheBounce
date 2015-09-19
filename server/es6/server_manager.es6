@@ -65,9 +65,18 @@ class ServerManager {
         var json = parseJson(msg, errors);
         switch (json.event) {
             case 'session_id':
-                var member = new Member(rinfo.address);
-                this.members.push(member);
-                data.session_id = member.session_id;
+                var member = new Member(rinfo.address),
+                    flg = false;
+                data.session_id = null;
+                for (var i = 0; i <this.members.length; i++) {
+                    flg = flg || (this.members[i].address == member.address);
+                }
+                if (!flg) {
+                    this.members.push(member);
+                    data.session_id = member.session_id;
+                } else {
+                    errors.push("That address is already exists.");
+                }
                 break;
             case 'create_room':
                 var member = getMember(this.members, json.session_id, errors);
