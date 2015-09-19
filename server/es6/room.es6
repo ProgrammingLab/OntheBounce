@@ -14,20 +14,14 @@ class Room extends Base {
     this.members.push(member);
   }
 
-  static getRoom(room_id) {
-    for (var i = 0; i < rooms.length; i++) {
-      if (rooms[i].room_id == room_id) {
-        return rooms[i];
+  isMember(member) {
+    for (var i = 0; i < this.members.length; i++) {
+      if (this.members[i].session_id == member.session_id) {
+        return true;
       }
     }
-    return null;
-  }
-
-  static pushRoom(room) {
-    rooms.push(room);
+    return false;
   }
 }
-
-var rooms = [];
 
 module.exports = Room;

@@ -12,18 +12,6 @@ class Member extends Base {
     this.address = address;
   }
 
-  static getMember(member_id) {
-    for (var i = 0; i < members.length; i++) {
-      if (members[i].session_id == member_id) {
-        return members[i];
-      }
-    }
-    return null;
-  }
-
-  static pushMember(member) {
-    members.push(member);
-  }
 }
 
 var members = [];

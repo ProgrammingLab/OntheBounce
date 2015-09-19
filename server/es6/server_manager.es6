@@ -1,6 +1,8 @@
 var Member = require('./member');
 var Room = require('./room');
 var Udp = require('./udp');
+var RoomManager = require('./room_manager');
+var MemberManager = require('./member_manager');
 let instance = null;
 
 function parseJson(msg, errors) {
@@ -13,38 +15,10 @@ function parseJson(msg, errors) {
     return data;
 }
 
-function getMember(members, session_id, errors) {
-    if (!session_id) {
-        errors.push("Session id is required");
-        return null;
-    }
-    for(var i = 0; i < members.length; i++) {
-        if (members[i].session_id == session_id) {
-            return members[i];
-        }
-    }
-    errors.push("Session id is invalid");
-    return null;
-}
-
-function getRoom(rooms, room_id, errors) {
-    if (!room_id) {
-        errors.push("Room id is required");
-        return null;
-    }
-    for (var i = 0; i < rooms.length; i++) {
-        if (rooms[i].room_id == room_id) {
-            return rooms[i];
-        }
-    }
-    errors.push("Room id is invalid");
-    return null;
-}
-
 class ServerManager {
     constructor() {
-        this.members = [];
-        this.rooms = [];
+        this.room_manager = new RoomManager();
+        this.member_manager = new MemberManager();
         if (!instance) {
             instance = this;
         }
@@ -65,38 +39,43 @@ class ServerManager {
         var json = parseJson(msg, errors);
         switch (json.event) {
             case 'session_id':
-                var member = new Member(rinfo.address),
-                    flg = false;
+                var member = new Member(rinfo.address);
                 data.session_id = null;
-                for (var i = 0; i <this.members.length; i++) {
-                    flg = flg || (this.members[i].address == member.address);
-                }
-                if (!flg) {
-                    this.members.push(member);
+                if (member) {
+                    this.member_manager.push(member);
                     data.session_id = member.session_id;
-                } else {
-                    errors.push("That address is already exists.");
                 }
                 break;
             case 'create_room':
-                var member = getMember(this.members, json.session_id, errors);
+                var member = this.member_manager.get(json.session_id);
+                data.room_id = null;
                 if (member) {
                     var room = new Room(member);
-                    this.rooms.push(room);
+                    this.room_manager.push(room);
                     data.room_id = room.room_id;
                 }
                 break;
             case 'join_room':
-                var member = getMember(this.members, json.session_id, errors);
-                var room = getRoom(this.rooms, json.room_id, errors);
+                var member = this.member_manager.get(json.session_id);
+                var room = this.room_manager.get(json.room_id);
                 if (member && room) {
                     room.addMember(member, errors);
                 }
                 break;
             case 'users':
-                var room = getRoom(this.rooms, json.room_id, errors);
-                if (room) {
-                    data.members = room.members;
+                var room = this.room_manager.get(json.room_id);
+                var member = this.member_manager.get(json.session_id);
+                data.users = [];
+                if (room && member) {
+                    if (room.isMember(member)) {
+                        var users = [];
+                        for (var i = 0; i < room.members.length; i++) {
+                            users.push({session_id: room.members[i].session_id});
+                        }
+                        data.users = users;
+                    } else {
+                        errors.push("User is not a member of the room.");
+                    }
                 }
                 break;
             default:
