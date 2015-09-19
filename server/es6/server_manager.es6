@@ -78,6 +78,9 @@ class ServerManager {
                     }
                 }
                 break;
+            case 'debug':
+                data.debug = json;
+                break;
             default:
                 json.event = 'Unknown Event';
                 errors.push('Unknown Event pushed');
@@ -85,6 +88,7 @@ class ServerManager {
         }
         var udp = new Udp(rinfo.address, rinfo.port);
         udp.distribute(json.event, data, errors);
+        console.log({event: json.event, data: data, errors: errors});
     }
 
     onError(err) {

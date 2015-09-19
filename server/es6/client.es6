@@ -13,7 +13,7 @@ var rl = readline.createInterface(process.stdin, process.stdout);
 
 rl.on('line', function (cmd) {
   console.log(`You just typed: ${cmd}`);
-  client.distribute('typed', cmd, {});
+  client.distribute('debug', cmd, {});
 });
 
 
