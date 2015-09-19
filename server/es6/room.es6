@@ -13,6 +13,21 @@ class Room extends Base {
   addMember(member, errors) {
     this.members.push(member);
   }
+
+  static getRoom(room_id) {
+    for (var i = 0; i < rooms.length; i++) {
+      if (rooms[i].room_id == room_id) {
+        return rooms[i];
+      }
+    }
+    return null;
+  }
+
+  static pushRoom(room) {
+    rooms.push(room);
+  }
 }
+
+var rooms = [];
 
 module.exports = Room;
