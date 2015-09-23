@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="app.css"/>
 </head>
 <body>
+
+<h1>Androidからサーバーへの通信</h1>
 <div>
     <h2>session_id</h2>
 
@@ -142,11 +144,11 @@
                         <ul>
                             <li>
                                 <code>user(:object): {</code>
-                                    <ul>
-                                        <li>
-                                            <code>session_id(:integer)</code>
-                                        </li>
-                                    </ul>
+                                <ul>
+                                    <li>
+                                        <code>session_id(:integer)</code>
+                                    </li>
+                                </ul>
                                 <code>}</code>
                             </li>
                         </ul>
@@ -160,12 +162,185 @@
     </div>
 </div>
 
-<h2>hitted</h2>
+<div>
+    <h2>game_start</h2>
 
-<h2>hitted_state</h2>
+    <div class="input">
+        <ul>
+            <li><code>event(:string) = "game_start"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li><code>session_id</code></li>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
 
-<h2>gameover</h2>
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "game_start"</code></li>
+            <li><code>data(:object): {</code>
+                <li><code>users(:array): [</code>
+                    <ul>
+                        <li>
+                            <code>user(:object): {</code>
+                            <ul>
+                                <li>
+                                    <code>ready(:boolean)</code>
+                                </li>
+                            </ul>
+                            <code>}</code>
+                        </li>
+                    </ul>
+                    <code>]</code>
+                </li>
+            <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
 
-<h2>result</h2>
+<div>
+    <h2>hitted</h2>
+
+    <div class="input">
+        <h3>input</h3>
+        <ul>
+            <li><code>event(:string) = "hitted"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                    <li><code>attack_session_id</code></li>
+                    <li><code>hitted_session_id</code></li>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "hitted"</code></li>
+            <li><code>data(:object): {</code>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>result</h2>
+
+    <div class="input">
+        <h3>input</h3>
+        <ul>
+            <li><code>event(:string) = "result"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "result"</code></li>
+            <li><code>data(:object): {</code>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+
+<h1>サーバーからAndroidへの通信</h1>
+
+<div>
+    <h2>member_ready</h2>
+
+    <div class="input">
+        <h3>input</h3>
+        <ul>
+            <li><code>event(:string) = "member_ready"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "member_ready"</code></li>
+            <li><code>data(:object): {</code>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>hitted_state</h2>
+
+    <div class="input">
+        <h3>input</h3>
+        <ul>
+            <li><code>event(:string) = "hitted_state"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "hitted_state"</code></li>
+            <li><code>data(:object): {</code>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>gameover</h2>
+
+    <div class="input">
+        <h3>input</h3>
+        <ul>
+            <li><code>event(:string) = "gameover"</code></li>
+            <li><code>data(:object): {</code>
+                <ul>
+                </ul>
+                <code>}</code>
+            </li>
+        </ul>
+    </div>
+
+    <div class="output">
+        <h3>Output</h3>
+        <ul>
+            <li><code>event(:string) = "gameover"</code></li>
+            <li><code>data(:object): {</code>
+                <code>}</code>
+            </li>
+            <li><code>errors(:array): []</code></li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
