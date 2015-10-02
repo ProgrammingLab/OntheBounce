@@ -9,7 +9,7 @@ function parseJson(msg, errors) {
     var data;
     try {
         data = JSON.parse(msg.toString());
-    } catch(e) {
+    } catch (e) {
         errors.push(e.toString());
     }
     return data;

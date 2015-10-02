@@ -1,4 +1,3 @@
-
 var Packets = {
     session_id: require('./packets/session_id')
 };

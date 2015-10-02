@@ -14,6 +14,6 @@ server.listen(8080, '127.0.0.1');
 var rl = readline.createInterface(process.stdin, process.stdout);
 
 rl.on('SIGINT', function () {
-  server.close();
-  rl.close();
+    server.close();
+    rl.close();
 });

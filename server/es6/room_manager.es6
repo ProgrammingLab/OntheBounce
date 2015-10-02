@@ -1,4 +1,3 @@
-
 class RoomManager {
     constructor() {
         this.rooms = [];
