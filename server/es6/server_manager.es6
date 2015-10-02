@@ -1,6 +1,6 @@
 var Member = require('./member');
 var Room = require('./room');
-var Udp = require('./udp');
+var Udp = require('./tcp');
 var RoomManager = require('./room_manager');
 var MemberManager = require('./member_manager');
 let instance = null;
@@ -27,10 +27,15 @@ class ServerManager {
     }
 
     init(socket) {
-        socket.on('message', this.onMessage);
-        socket.on('error', this.onError);
-        socket.on('close', this.onClose);
-        socket.on('listening', this.onListening);
+        socket.on('listening', this.onListening.bind(this));
+        socket.on('connection', this.onConnection.bind(this));
+        socket.on('close', this.onClose.bind(this));
+        socket.on('error', this.onError.bind(this));
+    }
+
+    onConnection(socket) {
+        var member = new Member(socket);
+        this.member_manager.push(member);
     }
 
     onMessage(msg, rinfo) {

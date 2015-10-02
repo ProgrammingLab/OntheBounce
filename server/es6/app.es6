@@ -2,13 +2,14 @@ var dgram = require('dgram');
 var readline = require('readline');
 var _ = require('./util');
 var ServerManager = require('./server_manager');
+var net = require('net');
 
-var server = dgram.createSocket('udp4');
+var server = net.createServer();
 
 var server_manager = new ServerManager();
 server_manager.init(server);
 
-server.bind(8080, '127.0.0.1');
+server.listen(8080, '127.0.0.1');
 
 var rl = readline.createInterface(process.stdin, process.stdout);
 

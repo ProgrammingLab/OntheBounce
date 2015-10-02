@@ -1,17 +1,14 @@
 var Base = require('./base');
 var _ = require('./util');
-var Udp = require('./udp');
+var Udp = require('./tcp');
 
 
 class Member extends Base {
-  constructor(address) {
-    var udp = new Udp(address, 8080);
-    super(udp.socket_);
-    this.udp = udp;
-    this.session_id = _.sha1(address.toString() + 'salt');
-    this.address = address;
+  constructor(socket) {
+    super(socket);
+    this.address = socket.remoteAddress;
+    this.session_id = _.sha1(this.address + 'salt');
   }
-
 }
 
 var members = [];

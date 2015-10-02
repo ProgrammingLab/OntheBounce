@@ -12,6 +12,8 @@ class Base {
       this.socket.on('timeout', this.$socketTimeout.bind(this));
       this.socket.on('end', this.$socketEnd.bind(this));
       this.socket.on('error', this.$socketError.bind(this));
+      this.socket.on('close', this.$socketClose.bind(this));
+      this.socket.on('drain', this.$socketDrain.bind(this));
     }
   }
 
@@ -86,6 +88,12 @@ class Base {
   }
 
   $socketError() {
+  }
+
+  $socketClose() {
+  }
+
+  $socketDrain() {
   }
 }
 

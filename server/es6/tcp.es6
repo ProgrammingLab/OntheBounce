@@ -1,15 +1,13 @@
-var _ = require('dgram');
+var net = require('net');
 
-class Udp {
-  constructor(host, port) {
-    this.socket_ = _.createSocket('udp4');
-    this.host = host;
-    this.port = port;
+class Tcp {
+  constructor(socket) {
+    this.socket = socket;
   }
 
   distribute(event, data, errors, fn) {
     var msg_json = Udp.to_json(event, data, errors);
-    this.socket_.send(msg_json, 0, msg_json.length, this.port, this.host, fn);
+    this.socket.write(msg_json, "UTF-8", fn);
   }
 
   static to_json(event, data, errors) {
@@ -23,4 +21,4 @@ class Udp {
   }
 }
 
-module.exports = Udp;
+module.exports = Tcp;
