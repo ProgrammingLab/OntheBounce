@@ -1,6 +1,7 @@
 var Base = require('./base');
 var _ = require('./util');
 var Udp = require('./tcp');
+var Room = require('./room');
 
 function parseJson(msg, errors) {
   var data;
@@ -26,6 +27,15 @@ class Member extends Base {
     switch(json.event) {
       case 'session_id':
         data.session_id = this.session_id;
+        break;
+      case 'create_room':
+        if (json.data.session_id != this.session_id) {
+          errors.push("Session id is invalid");
+          break;
+        }
+        var room = new Room(this);
+        room.addMember(this, errors);
+        data.room_id = room.room_id;
         break;
       case 'default':
         break;
