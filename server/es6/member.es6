@@ -2,12 +2,34 @@ var Base = require('./base');
 var _ = require('./util');
 var Udp = require('./tcp');
 
+function parseJson(msg, errors) {
+  var data;
+  try {
+    data = JSON.parse(msg.toString());
+  } catch(e) {
+    errors.push(e.toString());
+  }
+  return data;
+}
 
 class Member extends Base {
   constructor(socket) {
     super(socket);
     this.address = socket.remoteAddress;
     this.session_id = _.sha1(this.address + 'salt');
+  }
+
+  $socketData(msg) {
+    var errors = [];
+    var data = {};
+    var json = parseJson(msg, errors);
+    switch(json.event) {
+      case 'session_id':
+        data.session_id = this.session_id;
+        break;
+      case 'default':
+        break;
+    }
   }
 }
 
