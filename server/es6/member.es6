@@ -23,6 +23,57 @@ class Member extends Base {
         this.address = socket.remoteAddress;
         this.session_id = _.sha1(this.address + 'salt');
         Member.push(this);
+
+        var self = this;
+
+        this.event_list = {
+            session_id: self.$onSessionId,
+            create_room: self.$onCreateRoom,
+            join_room: self.$onJoinRoom,
+            users: "",
+            user_ready: "",
+            hitted: "",
+            user_dead: "",
+            result: ""
+        };
+
+        this.event_list.foreach(function (key, value) {
+            if (typeof value == 'function') {
+                self.$on(key, value.bind(self));
+            }
+        });
+    }
+
+    $onSessionId(data) {
+        var result = {event: "session_id"};
+        result.session_id = this.session_id;
+    }
+
+    $onCreateRoom(data) {
+        var result = {event: "create_room"};
+        var errors = [];
+        if (data.session_id != this.session_id) {
+            errors.push("Session id is invalid");
+        }
+        var room = new Room(this);
+        room.addMember(this, errors);
+        result.room_id = room.room_id;
+    }
+
+    $onJoinRoom(data) {
+        var result = {event: "join_room"};
+        var member = Member.get((mem) => {
+            return mem.session_id == data.session_id;
+        });
+        var room = Room.get((room) => {
+            return room.room_id == data.room_id;
+        });
+        if (member && room) {
+            room.addMember(member, errors);
+        }
+        errors.push(Room.getError());
+        errors.push(Member.getError());
+        errors = Array.prototype.concat.apply([], errors);
     }
 
     $socketData(msg) {
@@ -30,36 +81,13 @@ class Member extends Base {
         var data = {};
         var json = parseJson(msg, errors);
 
-        switch (json.event) {
-            case 'session_id':
-                data.session_id = this.session_id;
-                break;
-            case 'create_room':
-                if (json.data.session_id != this.session_id) {
-                    errors.push("Session id is invalid");
-                    break;
-                }
-                var room = new Room(this);
-                room.addMember(this, errors);
-                data.room_id = room.room_id;
-                break;
-            case 'join_room':
-                var member = Member.get((mem) => {
-                    return mem.session_id == json.data.session_id;
-                });
-                var room = Room.get((room) => {
-                    return room.room_id == json.data.room_id;
-                });
-                if (member && room) {
-                    room.addMember(member, errors);
-                }
-                errors.push(Room.getError());
-                errors.push(Member.getError());
-                errors = Array.prototype.concat.apply([], errors);
-                break;
-            case 'default':
-                break;
-        }
+        var self = this;
+        this.event_list.foreach(function (key) {
+            if (json.event == key) {
+                var event = json.event;
+                self.$emit(event, json.data);
+            }
+        });
     }
 
     static push(member) {

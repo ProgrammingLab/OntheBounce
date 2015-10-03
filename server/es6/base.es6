@@ -5,6 +5,8 @@ class Base {
         this.$children = [];
         this._events = [];
 
+        this.event_list = {};
+
         if (socket) {
             this.socket = socket;
             this.socket.on('connect', this.$socketConnect.bind(this));
