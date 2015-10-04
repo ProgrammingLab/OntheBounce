@@ -44,4 +44,22 @@ Object.defineProperty(Object.prototype,
       }
 });
 
+Object.defineProperty(Array.prototype,
+    "flatten", {
+        value: function(self) {
+            self = self || this;
+
+            var ret = [];
+            for (var i = 0; i < self.length; i++) {
+                if (Array.isArray(self[i])) {
+                    ret = ret.concat(self[i].flatten());
+                } else {
+                    ret.push(self[i]);
+                }
+            }
+            return ret;
+        }
+    }
+);
+
 exports.isArray = Array.isArray;
