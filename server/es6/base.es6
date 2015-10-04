@@ -1,3 +1,5 @@
+var _ = require('./util');
+
 class Base {
     constructor(socket) {
         this.socket = null;
@@ -16,6 +18,11 @@ class Base {
             this.socket.on('error', this.$socketError.bind(this));
             this.socket.on('close', this.$socketClose.bind(this));
             this.socket.on('drain', this.$socketDrain.bind(this));
+
+            this.$on('send', function(event, res, errors) {
+                var json = _.to_json(event, res, errors);
+                this.socket.write(json);
+            })
         }
     }
 

@@ -45,23 +45,32 @@ class Member extends Base {
     }
 
     $onSessionId(data) {
-        var result = {event: "session_id"};
+        var result = {};
         result.session_id = this.session_id;
+
+        this.$emit('send', 'session_id', result, []);
     }
 
     $onCreateRoom(data) {
-        var result = {event: "create_room"};
+        var result = {};
         var errors = [];
-        if (data.session_id != this.session_id) {
-            errors.push("Session id is invalid");
+        if (typeof data == 'object' && data.hasOwnProperty("session_id")) {
+            if (data.session_id == this.session_id) {
+                var room = new Room(this);
+                room.addMember(this, errors);
+                result.room_id = room.room_id;
+            } else {
+                errors.push("Session id is invalid");
+            }
+        } else {
+            errors.push("Data is invalid");
         }
-        var room = new Room(this);
-        room.addMember(this, errors);
-        result.room_id = room.room_id;
+
+        this.$emit('send', 'create_room', result, errors);
     }
 
     $onJoinRoom(data) {
-        var result = {event: "join_room"};
+        var result = {};
         var member = Member.get((mem) => {
             return mem.session_id == data.session_id;
         });
@@ -74,16 +83,21 @@ class Member extends Base {
         errors.push(Room.getError());
         errors.push(Member.getError());
         errors = Array.prototype.concat.apply([], errors);
+
+        this.$emit('send', 'join_room', result, errors);
     }
 
     $socketData(msg) {
         var errors = [];
         var data = {};
         var json = parseJson(msg, errors);
+        if (typeof json != 'object') {
+            return;
+        }
 
         var self = this;
         this.event_list.foreach(function (key) {
-            if (json.event == key) {
+            if (json.hasOwnProperty("event") && json.event == key) {
                 var event = json.event;
                 self.$emit(event, json.data);
             }
@@ -101,7 +115,6 @@ class Member extends Base {
     }
 
     static get(fn) {
-        console.log(members);
         for (var i = 0; i < members.length; i++) {
             if (fn(members[i])) {
                 return members[i];
