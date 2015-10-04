@@ -1,6 +1,5 @@
 var Base = require('./base');
 var _ = require('./util');
-var room_manager = require('./room_manager');
 
 var rooms = [];
 var errors = [];
