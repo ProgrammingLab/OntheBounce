@@ -1,6 +1,5 @@
 var Member = require('./member');
 var Room = require('./room');
-var Udp = require('./tcp');
 var RoomManager = require('./room_manager');
 var MemberManager = require('./member_manager');
 let instance = null;

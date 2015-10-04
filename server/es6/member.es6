@@ -1,6 +1,5 @@
 var Base = require('./base');
 var _ = require('./util');
-var Udp = require('./tcp');
 var Room = require('./room');
 
 function parseJson(msg, errors) {
