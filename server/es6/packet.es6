@@ -1,5 +1,6 @@
 var Packets = {
-    session_id: require('./packets/session_id')
+    session_id: require('./packets/session_id'),
+    create_room: require('./packets/create_room')
 };
 
 class Packet {

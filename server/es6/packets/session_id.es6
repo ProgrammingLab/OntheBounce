@@ -1,8 +1,9 @@
-class SessionId {
+var Base = require('./base');
+
+class SessionId extends Base {
     constructor(data, member) {
-        data = data || {};
+        super(data || {});
         this.member = member;
-        this.data = data || {};
     }
 
     getResult() {

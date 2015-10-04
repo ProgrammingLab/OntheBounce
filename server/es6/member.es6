@@ -34,24 +34,6 @@ class Member extends Base {
         });
     }
 
-    $onCreateRoom(data) {
-        var result = {};
-        var errors = [];
-        if (typeof data == 'object' && data.hasOwnProperty("session_id")) {
-            if (data.session_id == this.session_id) {
-                var room = new Room(this);
-                room.addMember(this, errors);
-                result.room_id = room.room_id;
-            } else {
-                errors.push("Session id is invalid");
-            }
-        } else {
-            errors.push("Data is invalid");
-        }
-
-        this.$emit('send', 'create_room', result, errors);
-    }
-
     $onJoinRoom(data) {
         var result = {};
         var member = Member.get((mem) => {
