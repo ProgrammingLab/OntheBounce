@@ -3,16 +3,32 @@ var Packets = {
 };
 
 class Packet {
-    constructor(data) {
+    constructor(json, member) {
+        this.event = 'Unknown Event';
         this.errors = [];
         this.obj = null;
-        var event = data.event;
-        var constructor = Packets[event];
-        if (!constructor) {
-            this.errors.push('Unknown Event pushed');
+
+        var constructor = null;
+        // eventが渡されていないもしくは不明のeventの場合は弾く
+        if (json.hasOwnProperty("event") && Packets.hasOwnProperty(json.event)) {
+            this.event = json.event;
+            constructor = Packets[this.event];
+            this.obj = new constructor(json.data, member);
         } else {
-            this.obj = new constructor(data);
+            this.errors.push('Unknown Event pushed');
         }
+    }
+
+    getErrors() {
+        return [this.errors, this.obj ? this.obj.getErrors() : []].flatten();
+    }
+
+    getResult() {
+        return this.obj ? this.obj.getResult() : {};
+    }
+
+    getEvent() {
+        return this.event;
     }
 }
 

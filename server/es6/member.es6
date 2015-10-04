@@ -1,16 +1,7 @@
 var Base = require('./base');
 var _ = require('./util');
 var Room = require('./room');
-
-function parseJson(msg, errors) {
-    var data;
-    try {
-        data = JSON.parse(msg.toString());
-    } catch (e) {
-        errors.push(e.toString());
-    }
-    return data;
-}
+var Packet = require('./packet');
 
 var members = [];
 var errors = [];
@@ -41,13 +32,6 @@ class Member extends Base {
                 self.$on(key, value.bind(self));
             }
         });
-    }
-
-    $onSessionId(data) {
-        var result = {};
-        result.session_id = this.session_id;
-
-        this.$emit('send', 'session_id', result, []);
     }
 
     $onCreateRoom(data) {
@@ -87,20 +71,17 @@ class Member extends Base {
     }
 
     $socketData(msg) {
-        var errors = [];
-        var data = {};
-        var json = parseJson(msg, errors);
-        if (typeof json != 'object') {
-            return;
+        var json,
+            errors = [];
+        try {
+            json = JSON.parse(msg.toString());
+        } catch (e) {
+            json = {};
+            errors.push(e.toString());
         }
 
-        var self = this;
-        this.event_list.foreach(function (key) {
-            if (json.hasOwnProperty("event") && json.event == key) {
-                var event = json.event;
-                self.$emit(event, json.data);
-            }
-        });
+        var data = new Packet(json, this);
+        this.$emit('send', data.getEvent(), data.getResult(), data.getErrors());
     }
 
     static push(member) {
