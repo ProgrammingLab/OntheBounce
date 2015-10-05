@@ -34,24 +34,6 @@ class Member extends Base {
         });
     }
 
-    $onJoinRoom(data) {
-        var result = {};
-        var member = Member.get((mem) => {
-            return mem.session_id == data.session_id;
-        });
-        var room = Room.get((room) => {
-            return room.room_id == data.room_id;
-        });
-        if (member && room) {
-            room.addMember(member, errors);
-        }
-        errors.push(Room.getError());
-        errors.push(Member.getError());
-        errors = Array.prototype.concat.apply([], errors);
-
-        this.$emit('send', 'join_room', result, errors);
-    }
-
     $socketData(msg) {
         var json,
             errors = [];
