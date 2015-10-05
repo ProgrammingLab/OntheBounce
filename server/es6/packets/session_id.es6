@@ -1,4 +1,5 @@
 var Base = require('./base');
+var Member = require('../member');
 
 class SessionId extends Base {
     constructor(data, member) {
@@ -7,11 +8,11 @@ class SessionId extends Base {
     }
 
     getResult() {
-        return {session_id: this.member.session_id};
+        return Member.getError() ? {} : {session_id: this.member.session_id}
     }
 
     getErrors() {
-        return [];
+        return Member.getError().flatten();
     }
 }
 
