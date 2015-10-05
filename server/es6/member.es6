@@ -13,6 +13,7 @@ class Member extends Base {
         this.address = socket.remoteAddress;
         this.session_id = _.sha1(this.address + 'salt');
         this.team_id = null;
+        this.ready = false;
         Member.push(this);
 
         var self = this;

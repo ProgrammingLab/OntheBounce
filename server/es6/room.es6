@@ -25,6 +25,10 @@ class Room extends Base {
         var team_count = [0, 0];
         for (var i = 0; i < 2; i++) {
             for (var j = 0; j < this.members.length; j++) {
+                if (this.members[i].session_id == member.session_id) {
+                    errors.push("Member is already joined");
+                    return;
+                }
                 if (this.members[j].team_id == i) {
                     team_count[i]++;
                 }
