@@ -8,11 +8,11 @@ class SessionId extends Base {
     }
 
     getResult() {
-        return Member.getError() ? {} : {session_id: this.member.session_id}
+        return {session_id: this.member.session_id};
     }
 
     getErrors() {
-        return Member.getError().flatten();
+        return [];
     }
 }
 

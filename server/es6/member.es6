@@ -4,41 +4,19 @@ var Room = require('./room');
 var Packet = require('./packet');
 
 var members = [];
-var errors = [];
-
 
 class Member extends Base {
     constructor(socket) {
         super(socket);
         this.address = socket.remoteAddress;
-        this.session_id = _.sha1(this.address + 'salt');
+        this.session_id = _.sha1(this.address + 'salt' + _.random(0, 100));
         this.team_id = null;
         this.ready = false;
         Member.push(this);
-
-        var self = this;
-
-        this.event_list = {
-            session_id: self.$onSessionId,
-            create_room: self.$onCreateRoom,
-            join_room: self.$onJoinRoom,
-            users: "",
-            user_ready: "",
-            hitted: "",
-            user_dead: "",
-            result: ""
-        };
-
-        this.event_list.foreach(function (key, value) {
-            if (typeof value == 'function') {
-                self.$on(key, value.bind(self));
-            }
-        });
     }
 
     $socketData(msg) {
-        var json,
-            errors = [];
+        var json;
         try {
             json = JSON.parse(msg.toString());
         } catch (e) {
@@ -68,12 +46,6 @@ class Member extends Base {
         }
         errors.push("That session_id is invalid.")
         return null;
-    }
-
-    static getError() {
-        var ret = errors;
-        errors = [];
-        return ret;
     }
 }
 
