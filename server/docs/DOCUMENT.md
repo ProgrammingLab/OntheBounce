@@ -88,7 +88,6 @@ room_id | integer | 加わりたい部屋のroom_id
 
 key | type | value
 --- | ---- | -----
-session_id | integer | 部屋に加わる人のsession_id
 round | integer | その部屋のゲームのラウンド数
 hit_point | integer | その部屋のゲームのユーザーの体力
 team_id | integer | 0 or 1
