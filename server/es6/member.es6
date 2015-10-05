@@ -4,6 +4,7 @@ var Room = require('./room');
 var Packet = require('./packet');
 
 var members = [];
+var errors = [];
 
 class Member extends Base {
     constructor(socket) {
