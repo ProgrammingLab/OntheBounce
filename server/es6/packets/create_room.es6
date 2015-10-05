@@ -18,7 +18,6 @@ class CreateRoom extends Base {
             this.room.hit_point = this.hit_point;
             this.room.round = this.round;
             this.room.user_count = this.user_count;
-            this.room.addMember(this.member, this.errors);
         } else {
             this.errors.push("Session id is invalid");
         }
