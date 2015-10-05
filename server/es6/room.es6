@@ -11,6 +11,9 @@ class Room extends Base {
         this.$children = this.members;
         this.room_id = _.sha1(new Date().getTime());
         this.author = user;
+
+        this.round = null;
+        this.hit_point = null;
         Room.push(this);
     }
 

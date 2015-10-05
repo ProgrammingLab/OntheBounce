@@ -3,9 +3,8 @@ var Base = require('./base');
 
 class CreateRoom extends Base {
     constructor(data, member) {
-        super(data);
+        super(data || {});
 
-        this.errors = [];
         this.member = member;
         this.room = null;
 
@@ -15,6 +14,8 @@ class CreateRoom extends Base {
 
         if (this.session_id && this.session_id == this.member.session_id) {
             this.room = new Room(this.member);
+            this.room.hit_point = this.hit_point;
+            this.room.round = this.round;
             this.room.addMember(this.member, this.errors);
         } else {
             this.errors.push("Session id is invalid");
@@ -22,7 +23,7 @@ class CreateRoom extends Base {
     }
 
     getResult() {
-        return {room_id: this.room.room_id};
+        return this.room ? {room_id: this.room.room_id} : {};
     }
 
     getErrors() {
