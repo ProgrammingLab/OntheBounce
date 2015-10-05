@@ -32,6 +32,7 @@ session_id | integer | サーバー内でユーザーに与えられる一意な
 	data: {
 		session_id,
 		round,
+		user_count,
 		hit_point
 	}
 }
@@ -42,6 +43,7 @@ key| type | value
 session_id | integer | 部屋を作成する人のsession_id
 round | integer | ゲームのラウンド数
 hit_point | integer | ユーザーの体力
+user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
 
 ```output
 {
@@ -56,6 +58,9 @@ hit_point | integer | ユーザーの体力
 key | type | value
 --- | --- | ---
 room_id | integer | サーバー内で部屋に与えられる一意なid
+round | integer | ゲームのラウンド数
+hit_point | integer | ユーザーの体力
+user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
 
 ## join_room
 
@@ -80,6 +85,7 @@ room_id | integer | 加わりたい部屋のroom_id
 	data: {
 		round,
 		hit_point,
+		user_count,
 		team_id
 	},
 	errors: []
@@ -90,6 +96,7 @@ key | type | value
 --- | ---- | -----
 round | integer | その部屋のゲームのラウンド数
 hit_point | integer | その部屋のゲームのユーザーの体力
+user_count | integer | その部屋でのゲームする人数
 team_id | integer | 0 or 1
 
 ## users

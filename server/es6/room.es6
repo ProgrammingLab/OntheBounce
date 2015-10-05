@@ -14,6 +14,7 @@ class Room extends Base {
 
         this.round = null;
         this.hit_point = null;
+        this.user_count = null;
         Room.push(this);
     }
 
