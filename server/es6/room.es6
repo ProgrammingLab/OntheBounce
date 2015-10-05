@@ -19,7 +19,31 @@ class Room extends Base {
     }
 
     addMember(member, errors) {
+        var rand = _.random;
+
+        // それぞれのチームの人数を数える
+        var team_count = [0, 0];
+        for (var i = 0; i < 2; i++) {
+            for (var j = 0; j < this.members.length; j++) {
+                if (this.members[j].team_id == i) {
+                    team_count[i]++;
+                }
+            }
+        }
+
+        var num = rand(0, 1);
+        if (team_count[num] == this.user_count / 2) {
+            if (team_count[num ^ 1] == this.user_count / 2) {
+                errors.push("The room is full");
+            } else {
+                member.team_id = num ^ 1;
+            }
+        } else {
+            member.team_id = num;
+        }
+
         member.$parent = this;
+
         this.members.push(member);
     }
 

@@ -31,9 +31,10 @@ class JoinRoom extends Base {
     getResult() {
         return this.room ?
         {
-            room_id: this.room.room_id,
             hit_point: this.room.hit_point,
-            round: this.room.round
+            round: this.room.round,
+            user_count: this.room.user_count,
+            team_id: this.member.team_id
         } : {};
     }
 
