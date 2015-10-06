@@ -2,6 +2,7 @@ var Packets = {
     session_id: require('./packets/session_id'),
     create_room: require('./packets/create_room'),
     join_room: require('./packets/join_room'),
+    setting_room: require('./packets/setting_room'),
     users: require('./packets/users'),
     user_ready: require('./packets/user_ready'),
     hitted: require('./packets/hitted')

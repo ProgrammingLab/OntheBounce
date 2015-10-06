@@ -19,7 +19,7 @@ class JoinRoom extends Base {
                 });
                 if (this.room) {
                     if (this.room.joinAble(this.member)) {
-                        this.room.addMember(this.member, this.errors);
+                        this.room.addMember(this.member);
                     }
                 } else {
                     this.errors.push("Room id is invalid");
@@ -31,17 +31,13 @@ class JoinRoom extends Base {
     }
 
     getResult() {
-        return this.room ?
+        return this.hadError() ? {} :
         {
             hit_point: this.room.hit_point,
             round: this.room.round,
             user_count: this.room.user_count,
             team_id: this.member.team_id
-        } : {};
-    }
-
-    getErrors() {
-        return [this.errors, Room.getError()].flatten();
+        };
     }
 }
 

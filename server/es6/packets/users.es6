@@ -20,9 +20,13 @@ class Users extends Base {
                     return room.room_id == room_id;
                 });
                 if (this.room) {
-                    var members = this.room.members;
-                    for (var i = 0; i < members.length; i++) {
-                        this.members.push({session_id: members[i].session_id, ready: members[i].ready});
+                    if (this.room.isMember(this.member)) {
+                        var members = this.room.members;
+                        for (var i = 0; i < members.length; i++) {
+                            this.members.push({session_id: members[i].session_id, ready: members[i].ready});
+                        }
+                    } else {
+                        this.errors.push("You are not a member of this room");
                     }
                 } else {
                     this.errors.push("Room id is invalid");
@@ -34,11 +38,10 @@ class Users extends Base {
     }
 
     getResult() {
-        return this.room ? {users: this.members} : {};
-    }
-
-    getErrors() {
-        return this.errors.flatten();
+        return this.hadError() ? {} :
+        {
+            users: this.members
+        }
     }
 }
 

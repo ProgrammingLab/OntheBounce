@@ -30,6 +30,14 @@ class Base {
             }
         )
     }
+
+    hadError() {
+        return this.errors.length != 0 || this.member.hadError() || (this.room && this.room.hadError());
+    }
+
+    getErrors() {
+        return [this.errors, this.room ? this.room.getErrors() : [], this.member.getErrors()].flatten();
+    }
 }
 
 module.exports = Base;

@@ -10,7 +10,16 @@ class UserReady extends Base {
         this.validate('session_id', {required: true});
 
         if (this.session_id && this.session_id == this.member.session_id) {
-            this.member.ready = true;
+            if (this.member.joinedRoom()) {
+                this.member.ready = true;
+
+                var room = this.member.$parent;
+                if (room.allReady()) {
+                    room.$broadcast("gamestart");
+                }
+            } else {
+                this.member.errors.push("You have not joined yet this room");
+            }
         } else {
             this.errors.push("Session id is invalid");
         }
@@ -18,10 +27,6 @@ class UserReady extends Base {
 
     getResult() {
         return {};
-    }
-
-    getErrors() {
-        return this.errors.flatten();
     }
 }
 

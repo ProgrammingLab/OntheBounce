@@ -10,10 +10,6 @@ class SessionId extends Base {
     getResult() {
         return {session_id: this.member.session_id};
     }
-
-    getErrors() {
-        return [];
-    }
 }
 
 module.exports = SessionId;

@@ -7,8 +7,6 @@ class Base {
         this.$children = [];
         this._events = [];
 
-        this.event_list = {};
-
         if (socket) {
             this.socket = socket;
             this.socket.on('connect', this.$socketConnect.bind(this));
@@ -63,7 +61,7 @@ class Base {
     }
 
     $broadcast(event) {
-        if (!this._events[event].length) return this;
+        if (!this._events[event]) return this;
         var children = this.$children;
         for (var i = 0; i < children.length; i++) {
             var child = children[i],

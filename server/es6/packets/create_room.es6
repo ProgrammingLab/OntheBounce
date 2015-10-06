@@ -14,7 +14,7 @@ class CreateRoom extends Base {
         this.validate('user_count', {default: 2});
 
         if (this.session_id && this.session_id == this.member.session_id) {
-            this.room = new Room(this.member);
+            this.room = new Room();
             this.room.hit_point = this.hit_point;
             this.room.setRound(this.round);
             this.room.user_count = this.user_count;
@@ -24,17 +24,13 @@ class CreateRoom extends Base {
     }
 
     getResult() {
-        return this.room ?
+        return this.hadError() ? {} :
         {
             room_id: this.room.room_id,
             round: this.room.round,
             hit_point: this.room.hit_point,
             user_count: this.room.user_count
-        } : {};
-    }
-
-    getErrors() {
-        return this.errors.flatten();
+        };
     }
 }
 

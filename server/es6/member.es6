@@ -3,19 +3,34 @@ var _ = require('./util');
 var Packet = require('./packet');
 
 var members = [];
-var errors = [];
 
 class Member extends Base {
     constructor(socket) {
         super(socket);
         this.address = socket.remoteAddress;
+        this.errors = [];
         this.session_id = _.sha1(this.address + 'salt' + _.random(0, 100));
         this.team_id = null;
         this.ready = false;
 
         this.hit_count = 0;
         this.hitted_count = 0;
-        Member.push(this);
+
+        this.$on('gamestart', this.gamestart.bind(this));
+        this.$on('gamestop', this.gamestop.bind(this));
+    }
+
+    gamestart() {
+        console.log("Game Start! " + this.session_id);
+    }
+
+    gamestop() {
+    }
+
+    getErrors() {
+        var ret = this.errors.flatten();
+        this.errors = [];
+        return ret;
     }
 
     $socketData(msg) {
@@ -24,7 +39,7 @@ class Member extends Base {
             json = JSON.parse(msg.toString());
         } catch (e) {
             json = {};
-            errors.push(e.toString());
+            this.errors.push(e.toString());
         }
 
         var data = new Packet(json, this);
@@ -49,6 +64,10 @@ class Member extends Base {
         }
     }
 
+    hadError() {
+        return !(this.errors.length == 0);
+    }
+
     getManager() {
         return Member;
     }
@@ -56,7 +75,7 @@ class Member extends Base {
     static push(member) {
         for (var i = 0; i < members.length; i++) {
             if (members[i].session_id == member.session_id) {
-                errors.push("The user already exists.");
+                member.errors.push("The user already exists.");
                 return;
             }
         }
@@ -69,7 +88,6 @@ class Member extends Base {
                 return members[i];
             }
         }
-        errors.push("That session_id is invalid.")
         return null;
     }
 }

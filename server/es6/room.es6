@@ -2,12 +2,12 @@ var Base = require('./base');
 var _ = require('./util');
 
 var rooms = [];
-var errors = [];
 
 class Room extends Base {
-    constructor(user) {
+    constructor() {
         super();
         this.members = [];
+        this.errors = [];
         this.$children = this.members;
         //this.room_id = _.sha1(new Date().getTime());
         this.room_id = "114514";
@@ -16,17 +16,20 @@ class Room extends Base {
         this.hit_point = null;
         this.user_count = null;
         Room.push(this);
+
+        this.$on('gamestart');
+        this.$on('gamestop');
     }
 
     joinAble(member) {
         if (this.user_count <= this.members.length) {
-            errors.push("This room is full");
+            member.errors.push("This room is full");
             return false;
         }
 
         for (var i = 0; i < this.members.length; i++) {
             if (member.session_id == this.members[i].session_id) {
-                errors.push("You have already joined");
+                member.errors.push("You have already joined");
                 return false;
             }
         }
@@ -34,18 +37,30 @@ class Room extends Base {
     }
 
     setRound(round) {
-        this.round = parseInt(round / 2 + 1) * 2;
+        this.round = round % 2 == 0 ? round : round + 1;
     }
 
-    addMember(member, errors) {
+    allReady() {
+        for (var i = 0; i < this.members.length; i++) {
+            if (!this.members[i].ready) return false;
+        }
+        return this.user_count == this.members.length;
+    }
+
+    addMember(member) {
         var rand = _.random;
+
+        if (member.joinedRoom()) {
+            member.errors.push("You have joined another room");
+            return;
+        }
 
         // それぞれのチームの人数を数える
         var team_count = [0, 0];
         for (var i = 0; i < 2; i++) {
             for (var j = 0; j < this.members.length; j++) {
                 if (this.members[j].session_id == member.session_id) {
-                    errors.push("Member is already joined");
+                    member.errors.push("You have already joined");
                     return;
                 }
                 if (this.members[j].team_id == i) {
@@ -57,7 +72,7 @@ class Room extends Base {
         var num = rand(0, 1);
         if (team_count[num] == this.user_count / 2) {
             if (team_count[num ^ 1] == this.user_count / 2) {
-                errors.push("The room is full");
+                member.errors.push("The room is full");
             } else {
                 member.team_id = num ^ 1;
             }
@@ -87,10 +102,20 @@ class Room extends Base {
         return false;
     }
 
+    getErrors() {
+        var ret = this.errors.flatten();
+        this.errors = [];
+        return ret;
+    }
+
+    hadError() {
+        return !(this.errors.length == 0);
+    }
+
     static push(room) {
         for (var i = 0; i < rooms.length; i++) {
             if (rooms[i].room_id == room.room_id) {
-                errors.push("The room already exists.")
+                room.errors.push("The room already exists.")
                 return;
             }
         }
@@ -103,14 +128,7 @@ class Room extends Base {
                 return rooms[i];
             }
         }
-        errors.push("The room is not exists");
         return null;
-    }
-
-    static getError() {
-        var ret = errors;
-        errors = [];
-        return ret;
     }
 }
 
