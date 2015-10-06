@@ -18,6 +18,10 @@ class Room extends Base {
         Room.push(this);
     }
 
+    setRound(round) {
+        this.round = parseInt(round / 2 + 1) * 2;
+    }
+
     addMember(member, errors) {
         var rand = _.random;
 
