@@ -18,7 +18,9 @@ class JoinRoom extends Base {
                     return room.room_id == room_id;
                 });
                 if (this.room) {
-                    this.room.addMember(this.member, this.errors);
+                    if (this.room.joinAble(this.member)) {
+                        this.room.addMember(this.member, this.errors);
+                    }
                 } else {
                     this.errors.push("Room id is invalid");
                 }
@@ -39,7 +41,7 @@ class JoinRoom extends Base {
     }
 
     getErrors() {
-        return this.errors.flatten();
+        return [this.errors, Room.getError()].flatten();
     }
 }
 

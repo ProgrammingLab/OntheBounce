@@ -18,6 +18,21 @@ class Room extends Base {
         Room.push(this);
     }
 
+    joinAble(member) {
+        if (this.user_count <= this.members.length) {
+            errors.push("This room is full");
+            return false;
+        }
+
+        for (var i = 0; i < this.members.length; i++) {
+            if (member.session_id == this.members[i].session_id) {
+                errors.push("You have already joined");
+                return false;
+            }
+        }
+        return true;
+    }
+
     setRound(round) {
         this.round = parseInt(round / 2 + 1) * 2;
     }
