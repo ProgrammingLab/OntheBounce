@@ -9,8 +9,8 @@ class Room extends Base {
         super();
         this.members = [];
         this.$children = this.members;
-        this.room_id = _.sha1(new Date().getTime());
-        this.author = user;
+        //this.room_id = _.sha1(new Date().getTime());
+        this.room_id = "114514";
 
         this.round = null;
         this.hit_point = null;
