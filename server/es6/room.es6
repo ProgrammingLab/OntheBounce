@@ -70,6 +70,14 @@ class Room extends Base {
         this.members.push(member);
     }
 
+    removeMember(member) {
+        for (var i = 0; i < this.members.length; i++) {
+            if (member == this.members[i]) {
+                this.members.splice(i, 1);
+            }
+        }
+    }
+
     isMember(member) {
         for (var i = 0; i < this.members.length; i++) {
             if (this.members[i].session_id == member.session_id) {

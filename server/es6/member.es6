@@ -31,6 +31,24 @@ class Member extends Base {
         this.$emit('send', data.getEvent(), data.getResult(), data.getErrors());
     }
 
+    joinedRoom() {
+        return this.$parent != null;
+    }
+
+    $socketClose(had_error) {
+        if (this.joinedRoom()) {
+            var room = this.$parent;
+
+            room.removeMember(this);
+        }
+
+        for (var i = 0; i < members.length; i++) {
+            if (members[i] == this) {
+                members.splice(i, 1);
+            }
+        }
+    }
+
     getManager() {
         return Member;
     }
