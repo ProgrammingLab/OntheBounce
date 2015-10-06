@@ -1,6 +1,5 @@
 var Base = require('./base');
 var _ = require('./util');
-var Room = require('./room');
 var Packet = require('./packet');
 
 var members = [];
@@ -13,6 +12,9 @@ class Member extends Base {
         this.session_id = _.sha1(this.address + 'salt' + _.random(0, 100));
         this.team_id = null;
         this.ready = false;
+
+        this.hit_count = 0;
+        this.hitted_count = 0;
         Member.push(this);
     }
 
@@ -27,6 +29,10 @@ class Member extends Base {
 
         var data = new Packet(json, this);
         this.$emit('send', data.getEvent(), data.getResult(), data.getErrors());
+    }
+
+    getManager() {
+        return Member;
     }
 
     static push(member) {

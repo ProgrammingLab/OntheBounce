@@ -3,7 +3,8 @@ var Packets = {
     create_room: require('./packets/create_room'),
     join_room: require('./packets/join_room'),
     users: require('./packets/users'),
-    user_ready: require('./packets/user_ready')
+    user_ready: require('./packets/user_ready'),
+    hitted: require('./packets/hitted')
 };
 
 class Packet {
