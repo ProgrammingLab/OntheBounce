@@ -99,6 +99,51 @@ hit_point | integer | その部屋のゲームのユーザーの体力
 user_count | integer | その部屋でのゲームする人数
 team_id | integer | 0 or 1
 
+## setting_room
+
+部屋の参加者が一人の時のみ設定できる
+
+```input
+{
+	event: "setting_room",
+	data: {
+		session_id,
+		room_id,
+		round,
+		hit_point,
+		user_count
+	}
+}
+```
+
+key | type | value
+--- | ---- | -----
+session_id | integer | 部屋に加わる人のsession_id
+room_id | integer | 加わりたい部屋のroom_id
+round | integer | その部屋のゲームのラウンド数
+hit_point | integer | その部屋のゲームのユーザーの体力
+user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
+
+
+```output
+{
+	event: "setting_room",
+	data: {
+		round,
+		hit_point,
+		user_count
+	},
+	errors: []
+}
+```
+
+key | type | value
+--- | ---- | -----
+round | integer | その部屋のゲームのラウンド数
+hit_point | integer | その部屋のゲームのユーザーの体力
+user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
+
+
 ## users
 
 ```input
