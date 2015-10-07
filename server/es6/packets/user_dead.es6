@@ -1,7 +1,7 @@
 var Base = require('./base');
 var Member = require('../member');
 
-class UserReady extends Base {
+class UserDead extends Base {
     constructor(data, member) {
         super(data || {});
 
@@ -13,10 +13,7 @@ class UserReady extends Base {
             if (this.member.joinedRoom()) {
                 var room = this.member.$parent;
                 var game = room.game_manager.getCurrentGame();
-                game.ready(this.session_id);
-                if (room.allReady()) {
-                    room.startGame();
-                }
+                game.dead(this.session_id);
             } else {
                 this.member.errors.push("You have not joined yet this room");
             }
@@ -30,4 +27,4 @@ class UserReady extends Base {
     }
 }
 
-module.exports = UserReady;
+module.exports = UserDead;

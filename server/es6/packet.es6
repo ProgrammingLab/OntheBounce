@@ -5,6 +5,7 @@ var Packets = {
     setting_room: require('./packets/setting_room'),
     users: require('./packets/users'),
     user_ready: require('./packets/user_ready'),
+    user_dead: require('./packets/user_dead'),
     hitted: require('./packets/hitted')
 };
 
