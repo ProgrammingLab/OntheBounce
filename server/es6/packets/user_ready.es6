@@ -11,9 +11,8 @@ class UserReady extends Base {
 
         if (this.session_id && this.session_id == this.member.session_id) {
             if (this.member.joinedRoom()) {
+                this.member.ready = true;
                 var room = this.member.$parent;
-                var game = room.game_manager.getCurrentGame();
-                game.ready(this.session_id);
                 if (room.allReady()) {
                     room.startGame();
                 }

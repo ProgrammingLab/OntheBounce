@@ -58,6 +58,14 @@ class GameManager {
     getMembers() {
         return this.$parent.members;
     }
+
+    getResult(session_id) {
+        var ret = [];
+        for (var i = 0; i < this.games.length; i++) {
+            ret.push(this.games[i].getResult(session_id));
+        }
+        return ret;
+    }
 }
 
 module.exports = GameManager;

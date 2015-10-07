@@ -13,6 +13,16 @@ class Game {
         for (var i = 0; i < members.length; i++) {
             this.teams[members[i].team_id][members[i].session_id] = {hit_count: 0, hitted_count: 0, status: 'alive'};
         }
+
+        this.teams.allDead = function(team_id) {
+            var members = this[team_id];
+            for (var i = 0; i < members.length; i++) {
+                if (members[i].status == 'alive') {
+                    return false;
+                }
+            }
+            return true;
+        };
     }
 
     dead(session_id) {
@@ -30,6 +40,11 @@ class Game {
             }
         }
         if (!flg) {
+            for (var i = 0; i < 2; i++) {
+                if (this.teams.allDead(i)) {
+                    this.win_team_id = i ^ 1;
+                }
+            }
             this.stop();
         }
     }
@@ -52,6 +67,21 @@ class Game {
     stop() {
         this.stopped = true;
         this.$parent.stopGame(this.win_team_id);
+    }
+
+    getResult(session_id) {
+        var members = this.$parent.getMembers();
+        for (var i = 0; i < members.length; i++) {
+            if (members[i].session_id == session_id) {
+                var member = this.teams[members[i].team_id][members[i].session_id];
+                return {
+                    round: this.round,
+                    hit_count: member.hit_count,
+                    hitted_count: member.hitted_count
+                };
+            }
+        }
+        return {};
     }
 }
 
