@@ -23,9 +23,9 @@ class SettingRoom extends Base {
                         this.validate('round', {default: this.room.round});
                         this.validate('hit_point', {default: this.room.hit_point});
                         this.validate('user_count', {default: this.room.user_count});
-                        this.room.hit_point = this.hit_point;
+                        this.room.setHitPoint(this.hit_point);
                         this.room.setRound(this.round);
-                        this.room.user_count = this.user_count;
+                        this.room.setUserCount(this.user_count);
                     } else {
                         this.errors.push("You can not change the room setting because either the other member joined or you have not joined");
                     }

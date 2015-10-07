@@ -1,4 +1,5 @@
 var Base = require('./base');
+var GameManager = require('./game_manager');
 var _ = require('./util');
 
 var rooms = [];
@@ -17,7 +18,11 @@ class Room extends Base {
         this.user_count = null;
         Room.push(this);
 
-        this.$on('gamestart');
+        this.game_manager = new GameManager();
+
+        this.$on('gamestart', function() {
+            this.game_manager.startGame();
+        }.bind(this));
         this.$on('gamestop');
     }
 
@@ -36,8 +41,17 @@ class Room extends Base {
         return true;
     }
 
+    setHitPoint(hit_point) {
+        this.hit_point = hit_point;
+    }
+
     setRound(round) {
-        this.round = round % 2 == 0 ? round : round + 1;
+        this.round = round;
+        this.game_manager.round = this.round;
+    }
+
+    setUserCount(user_count) {
+        this.user_count = user_count % 2 == 0 ? user_count : user_count + 1;
     }
 
     allReady() {

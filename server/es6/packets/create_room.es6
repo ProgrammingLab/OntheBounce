@@ -15,9 +15,9 @@ class CreateRoom extends Base {
 
         if (this.session_id && this.session_id == this.member.session_id) {
             this.room = new Room();
-            this.room.hit_point = this.hit_point;
+            this.room.setHitPoint(this.hit_point);
             this.room.setRound(this.round);
-            this.room.user_count = this.user_count;
+            this.room.setUserCount(this.user_count);
         } else {
             this.errors.push("Session id is invalid");
         }
