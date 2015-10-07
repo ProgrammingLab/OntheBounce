@@ -15,7 +15,7 @@ class UserReady extends Base {
 
                 var room = this.member.$parent;
                 if (room.allReady()) {
-                    room.$broadcast("gamestart");
+                    room.startGame();
                 }
             } else {
                 this.member.errors.push("You have not joined yet this room");

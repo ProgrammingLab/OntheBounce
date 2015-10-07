@@ -20,11 +20,12 @@ class Member extends Base {
         this.$on('gamestop', this.gamestop.bind(this));
     }
 
-    gamestart() {
-        console.log("Game Start! " + this.session_id);
+    gamestart(round) {
+        this.$emit('send', 'game_start', {round: round});
     }
 
-    gamestop() {
+    gamestop(win_team_id, next_round) {
+        this.$emit('send', 'game_stop', {win_team_id: win_team_id, next_round: next_round})
     }
 
     getErrors() {

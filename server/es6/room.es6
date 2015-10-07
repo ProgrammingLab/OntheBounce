@@ -18,12 +18,10 @@ class Room extends Base {
         this.user_count = null;
         Room.push(this);
 
-        this.game_manager = new GameManager();
+        this.game_manager = new GameManager(this);
 
-        this.$on('gamestart', function() {
-            this.game_manager.startGame();
-        }.bind(this));
-        this.$on('gamestop');
+        this.$on("gamestart");
+        this.$on("gamestop");
     }
 
     joinAble(member) {
@@ -39,6 +37,24 @@ class Room extends Base {
             }
         }
         return true;
+    }
+
+    startGame() {
+        console.log("Game start!");
+        this.game_manager.startGame();
+        this.$broadcast("gamestart", this.game_manager.current_round);
+    }
+
+    stopGame(win_team_id, next_round) {
+        if (next_round != 0) {
+            console.log(`${next_round - 1} round has finished`);
+            for (var i = 0; i < this.members.length; i++) {
+                this.members[i].ready = false;
+            }
+        } else {
+            console.log("Game stop!");
+        }
+        this.$broadcast("gamestop", win_team_id, next_round);
     }
 
     setHitPoint(hit_point) {
