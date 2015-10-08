@@ -81,7 +81,7 @@ class Room extends Base {
         var rand = _.random;
 
         if (member.joinedRoom()) {
-            member.errors.push("You have joined another room");
+            member.errors.push("You have already joined another room");
             return;
         }
 
@@ -145,7 +145,7 @@ class Room extends Base {
     static push(room) {
         for (var i = 0; i < rooms.length; i++) {
             if (rooms[i].room_id == room.room_id) {
-                room.errors.push("The room already exists.")
+                room.errors.push("The room has already existed");
                 return;
             }
         }

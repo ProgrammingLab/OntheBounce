@@ -76,7 +76,7 @@ class Member extends Base {
     static push(member) {
         for (var i = 0; i < members.length; i++) {
             if (members[i].session_id == member.session_id) {
-                member.errors.push("The user already exists.");
+                member.errors.push("The user have already existed");
                 return;
             }
         }

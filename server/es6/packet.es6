@@ -22,7 +22,7 @@ class Packet {
             constructor = Packets[this.event];
             this.obj = new constructor(json.data, member);
         } else {
-            this.errors.push('Unknown Event pushed');
+            this.errors.push('Unknown event has pushed');
         }
     }
 
