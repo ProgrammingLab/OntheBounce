@@ -121,6 +121,10 @@ class Room extends Base {
                 this.members.splice(i, 1);
             }
         }
+
+        if (this.members.length == 0) {
+            Room.remove(this.room_id);
+        }
     }
 
     isMember(member) {
@@ -159,6 +163,17 @@ class Room extends Base {
             }
         }
         return null;
+    }
+
+    static remove(room_id) {
+        var room;
+        for (var i = 0; i < rooms.length; i++) {
+            if (room_id == rooms[i].room_id) {
+                room = rooms[i];
+                rooms.splice(i, 1);
+            }
+        }
+        room = null;
     }
 }
 

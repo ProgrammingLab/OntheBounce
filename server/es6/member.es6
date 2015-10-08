@@ -58,11 +58,7 @@ class Member extends Base {
             room.removeMember(this);
         }
 
-        for (var i = 0; i < members.length; i++) {
-            if (members[i] == this) {
-                members.splice(i, 1);
-            }
-        }
+        Member.remove(this.session_id);
     }
 
     hadError() {
@@ -90,6 +86,18 @@ class Member extends Base {
             }
         }
         return null;
+    }
+
+    static remove(session_id) {
+        var member;
+        for (var i = 0; i < members.length; i++) {
+            if (members[i].session_id == session_id) {
+                member = members[i];
+                members.splice(i, 1);
+            }
+        }
+        console.log(members);
+        member = null;
     }
 }
 
