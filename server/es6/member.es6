@@ -96,7 +96,6 @@ class Member extends Base {
                 members.splice(i, 1);
             }
         }
-        console.log(members);
         member = null;
     }
 }

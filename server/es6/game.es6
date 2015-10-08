@@ -76,6 +76,7 @@ class Game {
                 var member = this.teams[members[i].team_id][members[i].session_id];
                 return {
                     round: this.round,
+                    win: member.team_id == this.win_team_id,
                     hit_count: member.hit_count,
                     hitted_count: member.hitted_count
                 };
