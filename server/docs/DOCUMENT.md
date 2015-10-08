@@ -21,7 +21,7 @@
 
 key|type| value
 ---| --- | ---
-session_id | integer | サーバー内でユーザーに与えられる一意なid
+session_id | string | サーバー内でユーザーに与えられる一意なid
 
 
 ## create_room
@@ -40,7 +40,7 @@ session_id | integer | サーバー内でユーザーに与えられる一意な
 
 key| type | value
 ---| --- | ---
-session_id | integer | 部屋を作成する人のsession_id
+session_id | string | 部屋を作成する人のsession_id
 round | integer | ゲームのラウンド数
 hit_point | integer | ユーザーの体力
 user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
@@ -57,7 +57,7 @@ user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
 
 key | type | value
 --- | --- | ---
-room_id | integer | サーバー内で部屋に与えられる一意なid
+room_id | string | サーバー内で部屋に与えられる一意なid
 round | integer | ゲームのラウンド数
 hit_point | integer | ユーザーの体力
 user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
@@ -76,8 +76,8 @@ user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
 
 key | type | value
 --- | ---- | -----
-session_id | integer | 部屋に加わる人のsession_id
-room_id | integer | 加わりたい部屋のroom_id
+session_id | string | 部屋に加わる人のsession_id
+room_id | string | 加わりたい部屋のroom_id
 
 ```output
 {
@@ -118,8 +118,8 @@ team_id | integer | 0 or 1
 
 key | type | value
 --- | ---- | -----
-session_id | integer | 部屋に加わる人のsession_id
-room_id | integer | 加わりたい部屋のroom_id
+session_id | string | 部屋に加わる人のsession_id
+room_id | string | 加わりたい部屋のroom_id
 round | integer | その部屋のゲームのラウンド数
 hit_point | integer | その部屋のゲームのユーザーの体力
 user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
@@ -158,8 +158,8 @@ user_count | integer | ユーザーの人数（偶数奇数の場合は+1する
 
 key | type | value
 --- | ---- | -----
-session_id | integer | 自分のsession_id
-room_id | integer | 自分が参加している部屋のroom_id
+session_id | string | 自分のsession_id
+room_id | string | 自分が参加している部屋のroom_id
 
 ```output
 {
@@ -179,7 +179,7 @@ room_id | integer | 自分が参加している部屋のroom_id
 key | type | value
 --- | ---- | -----
 users | array | 部屋に参加しているユーザーの配列
-session_id | integer | ユーザーのsession_id
+session_id | string | ユーザーのsession_id
 ready | boolean | ゲーム開始の準備ができているか
 
 ---
@@ -197,7 +197,7 @@ ready | boolean | ゲーム開始の準備ができているか
 
 key | type | value
 --- | ---- | -----
-session_id | integer | ゲーム開始の準備ができているユーザーのid
+session_id | string | ゲーム開始の準備ができているユーザーのid
 
 ```output
 {
@@ -222,8 +222,8 @@ session_id | integer | ゲーム開始の準備ができているユーザーの
 
 key | type | value
 --- | ---- | -----
-attack_session_id | integer | 攻撃したユーザーのid
-hitted_session_id | integer | 攻撃されたユーザーのid
+attack_session_id | string | 攻撃したユーザーのid
+hitted_session_id | string | 攻撃されたユーザーのid
 
 ```output
 {
@@ -246,7 +246,7 @@ hitted_session_id | integer | 攻撃されたユーザーのid
 ```
 key | type | value
 --- | ---- | -----
-session_id | integer | 死んだユーザーのid
+session_id | string | 死んだユーザーのid
 
 ```output
 {
@@ -270,7 +270,7 @@ session_id | integer | 死んだユーザーのid
 
 key | type | value
 --- | ---- | -----
-session_id | integer | 結果を取得したいユーザーのsession_id
+session_id | string | 結果を取得したいユーザーのsession_id
 
 ```output{
 {	
@@ -279,6 +279,7 @@ session_id | integer | 結果を取得したいユーザーのsession_id
 		rounds: [
 			{
 				round
+				win
 				hit_count
 				hitted_count
 			}
@@ -292,6 +293,7 @@ session_id | integer | 結果を取得したいユーザーのsession_id
 key | type | value
 --- | ---- | -----
 round | integer | 何ラウンド目か
+win | boolean | 勝利したかどうか
 hit_count | integer | 攻撃を当てた回数
 hitted_count | integer | 攻撃を当てられた回数
 
