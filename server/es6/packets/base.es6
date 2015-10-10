@@ -2,6 +2,7 @@ class Base {
 
     constructor(data) {
         this.errors = [];
+        this.debug = {};
         this.data = data;
     }
 

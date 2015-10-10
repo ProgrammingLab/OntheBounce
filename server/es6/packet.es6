@@ -18,9 +18,13 @@ class Packet {
         var constructor = null;
         // eventが渡されていないもしくは不明のeventの場合は弾く
         if (json.hasOwnProperty("event") && Packets.hasOwnProperty(json.event)) {
+            if (json.data.hasOwnProperty("debug")) {
+                this.debug = !!json.data.debug;
+            }
             this.event = json.event;
             constructor = Packets[this.event];
             this.obj = new constructor(json.data, member);
+            this.obj.debug = json;
         } else {
             this.errors.push('Unknown event has pushed');
         }
@@ -31,7 +35,11 @@ class Packet {
     }
 
     getResult() {
-        return this.obj ? this.obj.getResult() : {};
+        var result = this.obj ? this.obj.getResult() : {};
+        if (this.debug) {
+            result.debug = this.obj.debug;
+        }
+        return result;
     }
 
     getEvent() {
