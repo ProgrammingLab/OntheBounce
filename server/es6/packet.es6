@@ -6,7 +6,8 @@ var Packets = {
     users: require('./packets/users'),
     user_ready: require('./packets/user_ready'),
     user_dead: require('./packets/user_dead'),
-    hitted: require('./packets/hitted')
+    hitted: require('./packets/hitted'),
+    result: require('./packets/result')
 };
 
 class Packet {
