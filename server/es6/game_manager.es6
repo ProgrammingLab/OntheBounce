@@ -43,7 +43,7 @@ class GameManager {
             }
         }
 
-        if (this.round / 2 + 1 >= teams[gt_team_id]) {
+        if (parseInt(this.round / 2) + 1 <= teams[gt_team_id]) {
             next_round = this.current_round;
         }
 
@@ -60,9 +60,10 @@ class GameManager {
     }
 
     getResult(session_id) {
-        var ret = [];
+        var ret = {};
+        ret.rounds = [];
         for (var i = 0; i < this.games.length; i++) {
-            ret.push(this.games[i].getResult(session_id));
+            ret.rounds.push(this.games[i].getResult(session_id));
         }
         return ret;
     }
