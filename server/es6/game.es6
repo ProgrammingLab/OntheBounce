@@ -11,7 +11,7 @@ class Game {
 
         var members = this.$parent.getMembers();
         for (var i = 0; i < members.length; i++) {
-            this.teams[members[i].team_id][members[i].session_id] = {hit_count: 0, hitted_count: 0, status: 'alive'};
+            this.teams[members[i].team_id][members[i].session_id] = {team_id: members[i].team_id, hit_count: 0, hitted_count: 0, status: 'alive'};
         }
 
         this.teams.allDead = function(team_id) {

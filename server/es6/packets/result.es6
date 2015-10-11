@@ -10,8 +10,8 @@ class Result extends Base {
         this.validate('session_id', {required: true});
 
         if (this.session_id && this.session_id == this.member.session_id) {
-            var game_manager = this.$parent.game_manager;
-            this.result = game_manager.getResult();
+            var game_manager = this.member.$parent.game_manager;
+            this.result = game_manager.getResult(this.member.session_id);
         } else {
             this.errors.push("Session id is invalid");
         }
