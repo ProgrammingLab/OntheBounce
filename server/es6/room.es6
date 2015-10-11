@@ -53,6 +53,7 @@ class Room extends Base {
             }
         } else {
             console.log("Game stop!");
+            Room.remove(this.room_id);
         }
         this.$broadcast("gamestop", win_team_id, next_round);
     }
