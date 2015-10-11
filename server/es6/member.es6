@@ -44,7 +44,11 @@ class Member extends Base {
         }
 
         var data = new Packet(json, this);
-        this.$emit('send', data.getEvent(), data.getResult(), data.getErrors());
+        var event = data.getEvent(),
+            res = data.getResult(),
+            errors = data.getErrors();
+        console.log({event: event, data: res, errors: errors});
+        this.$emit('send', event, res, errors);
     }
 
     joinedRoom() {
